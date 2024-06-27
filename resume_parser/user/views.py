@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from .models import User
+from pyresparser import ResumeParser
+import warnings
+ 
+warnings.filterwarnings("ignore", category=UserWarning)
 
 # Create your views here.
 def index(request):
@@ -24,6 +28,8 @@ def index(request):
         print(getResume)
         # return HttpResponse(getName)
         # return HttpResponse(getResume)
+        data = ResumeParser(getResume).get_extracted_data()
+        print("Email:", data["email"])
         return redirect('/')
 
     return render(request, "resume.html")
